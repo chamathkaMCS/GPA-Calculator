@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/mystyles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <title>GPA Calculator</title>
+  </head>
+  <body>
+    <!-- header-->
+    <div id="header-placeholder"></div>
+    <!--body-->
+    <div style="height: 85vh; width: 100vw; display: flex">
+      <div class="settings col-lg-4 col-sm-10">
+        <table class="settings">
+          <tbody>
+            <tr>
+              <td>
+                <label class="py-3" style="font-size: 2rem">First Year :</label>
+              </td>
+              <td style="text-align: end">
+                <input
+                  class="pl-3 my-4"
+                  type="text"
+                  id="year_1per"
+                  placeholder="25"
+                  style="
+                    width: 90px;
+                    height: 40px;
+                    border-radius: 5px;
+                    font-size: 2em;
+                    text-align: end;
+                  "
+                />
+                <label style="font-size: 2rem">%</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="py-3" style="font-size: 2rem"
+                  >Second Year :</label
+                >
+              </td>
+              <td style="text-align: end">
+                <input
+                  class="pl-3 my-4"
+                  type="text"
+                  id="year_2per"
+                  placeholder="25"
+                  style="
+                    width: 90px;
+                    height: 40px;
+                    border-radius: 5px;
+                    font-size: 2em;
+                    text-align: end;
+                  "
+                />
+                <label style="font-size: 2rem">%</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="py-3" style="font-size: 2rem">Third Year :</label>
+              </td>
+              <td style="text-align: end">
+                <input
+                  class="pl-3 my-4"
+                  type="text"
+                  id="year_3per"
+                  placeholder="25"
+                  style="
+                    width: 90px;
+                    height: 40px;
+                    border-radius: 5px;
+                    font-size: 2em;
+                    text-align: end;
+                  "
+                />
+                <label style="font-size: 2rem">%</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="py-3" style="font-size: 2rem">Final Year :</label>
+              </td>
+              <td style="text-align: end">
+                <input
+                  type="text"
+                  id="year_4per"
+                  placeholder="25"
+                  style="
+                    width: 90px;
+                    height: 40px;
+                    border-radius: 5px;
+                    font-size: 2em;
+                    text-align: end;
+                  "
+                />
+                <label style="font-size: 2rem">%</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="py-3" style="font-size: 2rem"
+                  >Theme Color :</label
+                >
+              </td>
+              <td style="text-align: end">
+                <input
+                  type="color"
+                  id="colorPicker"
+                  value="#675570"
+                  style="
+                    width: 120px;
+                    height: 40px;
+                    border-radius: 5px;
+                    font-size: 2em;
+                  "
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="col-12">
+          <div class="row justify-content-end align-items-center">
+            <button class="btn2" id="saveBtn" onclick="downloadEncryptedFile()">
+              save <i class="fa fa-save"></i>
+            </button>
+            <button class="btn2" id="downloadBtn" onclick="downloadEncryptedFile()">
+              <i class="fa fa-download"></i>
+            </button>
+            <input
+              type="file"
+              id="uploadBtn"
+              accept=".gpa"
+              style="display: none"
+            />
+            <button
+              onclick="document.getElementById('uploadBtn').click()"
+              class="btn2"
+            >
+              <i class="fa fa-upload"></i>
+            </button>
+          </div>
+          <br>
+        </div>
+        <div style="width: 100%; text-align: center">
+          <p id="totalWarning" style="font-weight: 400"></p>
+        </div>
+      </div>
+    </div>
+    <!--whatsapp floating Btn-->
+    <div id="whatsappBtn-placeholder"></div>
+
+    <!--footer-->
+    <script src="../js/modules.js"></script>
+    <script src="../js/myjavascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/bootstrap.js"></script>
+  </body>
+</html>

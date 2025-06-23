@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/mystyles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <title>GPA Calculator</title>
+  </head>
+  <body>
+    <!-- header-->
+    <div id="header-placeholder"></div>
+    <!--body-->
+    <div class="col-12">
+      <div class="container-fluid mt-5">
+        <div class="row">
+          <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <label style="font-size: 1.5rem">Your Name</label><br />
+            <input
+              type="text"
+              class="userDetails"
+              name="fgbg"
+              id="userName"
+              placeholder="A.B.C.Abeygunasekara"
+              style="font-size: 1.5rem; padding-left: 10px; width: 100%"
+            />
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-7">
+            <label style="font-size: 1.5rem">University Name</label><br />
+            <input
+              type="text"
+              class="userDetails"
+              id="universityName"
+              placeholder="NSBM Green University"
+              style="font-size: 1.5rem; padding-left: 10px; width: 100%"
+            />
+          </div>
+          <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 d-flex flex-column">
+            <div class="flex-grow-1"></div>
+            <div class="d-flex justify-content-end">
+              <button class="btn1" id="settings">
+                Settings<i class="fa fa-pencil pl-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <hr />
+      </div>
+    </div>
+
+      <div class="yearDiv container text-center no-select" id="firstYear">
+        <h1 style="margin-top: 20px">First Year</h1>
+        <div>
+          <table id="moduleTable" class="modules">
+            <thead>
+              <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="moduleTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="yearDiv container text-center no-select" id="secondYear">
+        <h1 style="margin-top: 20px">Second Year</h1>
+        <div>
+          <table id="moduleTable" class="modules">
+            <thead>
+              <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="moduleTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="yearDiv container text-center no-select" id="thirdYear">
+        <h1 style="margin-top: 20px">Third Year</h1>
+        <div>
+          <table id="moduleTable" class="modules">
+            <thead>
+              <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="moduleTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="yearDiv container text-center no-select" id="finalYear">
+        <h1 style="margin-top: 20px">Final Year</h1>
+        <div>
+          <table id="moduleTable" class="modules">
+            <thead>
+              <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="moduleTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="text-light mt-5 text-center">
+        <p class="text-dark">
+          This GPA calculator website <br />does not collect or store any of
+          your personal data. <br />You can safely export your entered data as a
+          .csv file and upload an existing .csv anytime. <br />It also allows
+          you to adjust the weight of each academic year, <br />giving you a
+          customized final GPA calculation.
+        </p>
+      </div>
+    </div>
+
+    <!--whatsapp floating Btn-->
+    <div id="whatsappBtn-placeholder"></div>
+
+    <!--footer-->
+
+    <script src="../js/modules.js"></script>
+    <script src="../js/myjavascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/bootstrap.js"></script>
+  </body>
+</html>

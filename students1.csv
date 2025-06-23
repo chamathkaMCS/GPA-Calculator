@@ -1,0 +1,11 @@
+StudentID,FullName,Email,Major,GPA
+1001,John Smith,john.smith@example.com,Computer Science,3.6
+1002,Maria Garcia,maria.garcia@example.com,Mathematics,3.9
+1003,David Lee,david.lee@example.com,Biology,3.2
+1004,Sophia Patel,sophia.patel@example.com,Physics,3.8
+1005,Michael Brown,michael.brown@example.com,Chemistry,3.4
+1006,Emily Davis,emily.davis@example.com,English,3.7
+1007,James Wilson,james.wilson@example.com,History,3.1
+1008,Olivia Martinez,olivia.martinez@example.com,Psychology,3.5
+1009,Daniel Kim,daniel.kim@example.com,Engineering,3.3
+1010,Ava Johnson,ava.johnson@example.com,Economics,3.9
