@@ -1,11 +1,3 @@
-:root {
-  --color-primary: #2c3646; /* Main brand/primary color */
-  --color-secondary: #626f83; /* Secondary complementary color */
-  --color-accent: #615c5c; /* Accent color (for highlights/buttons) */
-  --color-background: #181818; /* Background color */
-  --color-text: #333333; /* Main text color */
-}
-
 @media (max-width: 768px) {
   .custom-card-img {
     min-height: 80vw;

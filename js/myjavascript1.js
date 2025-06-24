@@ -1,10 +1,10 @@
-// common html parts
+// Load on page load
+document.addEventListener("DOMContentLoaded", loadDataFromStorage);
 
 fetch("header.html")
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("header-placeholder").innerHTML = data;
-    setupHeaderRelatedListeners();
   });
 fetch("footer.html")
   .then((response) => response.text())
@@ -16,7 +16,6 @@ fetch("whatsappBtn.html")
   .then((data) => {
     document.getElementById("whatsappBtn-placeholder").innerHTML = data;
   });
-//---------------
 
 document.addEventListener("DOMContentLoaded", function () {
   const saved = JSON.parse(localStorage.getItem("themePalette"));
@@ -53,12 +52,15 @@ function setupGeneralListeners() {
       heading.addEventListener("click", function () {
         section.style.height =
           section.style.height === "90px" ? "100%" : "90px";
+        console.log("btn clickes");
       });
     }
   });
 }
-const fields = ["year_1per", "year_2per", "year_3per", "year_4per"];
 
+// year pecentages
+
+const fields = ["year_1per", "year_2per", "year_3per", "year_4per"];
 function validateField(id) {
   const input = document.getElementById(id);
   const value = parseFloat(input.value);
@@ -83,16 +85,6 @@ function validateTotal() {
   } else {
     totalBox.innerText = ``;
   }
-}
-
-if (localStorage.getItem("yearPercentages") === null) {
-  const defaultPercentages = {
-    year_1per: "25",
-    year_2per: "25",
-    year_3per: "25",
-    year_4per: "25",
-  };
-  localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
 }
 
 // Add input event listeners to each field
@@ -120,6 +112,7 @@ function saveToLocalStorage() {
   });
   localStorage.setItem("yearPercentages", JSON.stringify(data));
 }
+
 //save student detailes
 const userNameInput = document.getElementById("userName");
 const universityNameInput = document.getElementById("universityName");
@@ -133,15 +126,40 @@ function updateStudentInStorage() {
 }
 
 // Load existing data from localStorage
-function loadStudentFromStorage() {
+function loadDataFromStorage() {
   const stored = JSON.parse(localStorage.getItem("student") || "{}");
   if (stored.name) userNameInput.value = stored.name;
   if (stored.university) universityNameInput.value = stored.university;
+
+  //defaultPercentages in years
+  if (localStorage.getItem("yearPercentages") === null) {
+    const defaultPercentages = {
+      year_1per: "25",
+      year_2per: "25",
+      year_3per: "25",
+      year_4per: "25",
+    };
+    localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
+  }
 }
 
 // Update in real time
 userNameInput.addEventListener("input", updateStudentInStorage);
 universityNameInput.addEventListener("input", updateStudentInStorage);
 
-// Load on page load
-document.addEventListener("DOMContentLoaded", loadStudentFromStorage);
+// //--------------test js codes-----------------
+
+// // function setupHeaderRelatedListeners() {
+// //   const toggleHeightBtn = document.getElementById("toggleHeightBtn");
+// //   if (toggleHeightBtn) {
+// //     toggleHeightBtn.onclick = () => toggleHeight(toggleHeightBtn);
+// //   }
+// // }
+
+// // function toggleHeight(button) {
+// //   const header = document.getElementById("header");
+// //   if (!header) return;
+// //   const isExpanded = button.getAttribute("aria-expanded") === "true";
+// //   button.setAttribute("aria-expanded", !isExpanded);
+// //   header.style.minHeight = isExpanded ? "150px" : "350px";
+// // }

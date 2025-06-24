@@ -50,7 +50,7 @@ function renderTable(containerId, storageKey) {
   inputRow.innerHTML = `
     <td><input type="text" id="${containerId}_newCode" placeholder="Your Module Code"/></td>
     <td><input type="text" id="${containerId}_newName" placeholder="Your Module Name"/></td>
-    <td><input type="number" id="${containerId}_newCredits" placeholder="Your Credits"/></td>
+    <td><input type="number" id="${containerId}_newCredits" placeholder="Your Credits" min="1" max="6"/></td>
     <td>
       <select id="${containerId}_newGrade">
         <option value="">Select</option>
@@ -95,7 +95,7 @@ function updateModule(key, index, field, value) {
   saveModules(key, modules);
 }
 
-//delete module 
+//delete module
 
 function deleteModule(key, containerId, index) {
   const modules = getStoredModules(key);
@@ -104,7 +104,7 @@ function deleteModule(key, containerId, index) {
   renderTable(containerId, key);
 }
 
-//add module 
+//add module
 
 function addModule(key, containerId) {
   const newModule = {
@@ -130,7 +130,6 @@ function addModule(key, containerId) {
   renderTable(containerId, key);
 }
 
-
 //goto settings
 const settingsBtn = document.getElementById("settings");
 if (settingsBtn) {
@@ -145,11 +144,29 @@ if (saveBtn) {
 function downloadEncryptedFile() {
   // Get data from localStorage
   const student = JSON.parse(localStorage.getItem("student") || "{}");
-  const modules = JSON.parse(localStorage.getItem("year_1_modules") || "[]");
+  const year_1_modules = JSON.parse(
+    localStorage.getItem("year_1_modules") || "[]"
+  );
+  const year_2_modules = JSON.parse(
+    localStorage.getItem("year_2_modules") || "[]"
+  );
+  const year_3_modules = JSON.parse(
+    localStorage.getItem("year_3_modules") || "[]"
+  );
+  const year_4_modules = JSON.parse(
+    localStorage.getItem("year_4_modules") || "[]"
+  );
+  const yearPercentages = JSON.parse(
+    localStorage.getItem("yearPercentages") || "[]"
+  );
 
   const dataToEncrypt = {
     student,
     year_1_modules,
+    year_2_modules,
+    year_3_modules,
+    year_4_modules,
+    yearPercentages,
   };
 
   // Encrypt
@@ -164,7 +181,7 @@ function downloadEncryptedFile() {
 
   const link = document.createElement("a");
   link.href = url;
-  link.download = "student_data.gpa"; // file extension is optional
+  link.download = "Your_data.gpa"; // file extension is optional
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -205,7 +222,26 @@ document
           "student",
           JSON.stringify(parsedData.student || {})
         );
-        localStorage.setItem("modules", JSON.stringify(parsedData.modules));
+        localStorage.setItem(
+          "year_1_modules",
+          JSON.stringify(parsedData.year_1_modules || [])
+        );
+        localStorage.setItem(
+          "year_2_modules",
+          JSON.stringify(parsedData.year_2_modules || [])
+        );
+        localStorage.setItem(
+          "year_3_modules",
+          JSON.stringify(parsedData.year_3_modules || [])
+        );
+        localStorage.setItem(
+          "year_4_modules",
+          JSON.stringify(parsedData.year_4_modules || [])
+        );
+        localStorage.setItem(
+          "yearPercentages",
+          JSON.stringify(parsedData.yearPercentages || [])
+        );
 
         alert("✅ File successfully uploaded and decrypted!");
       } catch (err) {
@@ -217,7 +253,11 @@ document
       // render outside catch block
       try {
         document.addEventListener("DOMContentLoaded", function () {
-          renderTable();
+          renderTable("firstYear", "year_1_modules");
+          renderTable("secondYear", "year_2_modules");
+          renderTable("thirdYear", "year_3_modules");
+          renderTable("finalYear", "year_4_modules");
+
         });
       } catch (tableError) {
         console.error("Error while rendering table:", tableError);
