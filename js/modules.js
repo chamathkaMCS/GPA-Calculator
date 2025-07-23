@@ -31,11 +31,11 @@ function renderTable(containerId, storageKey) {
       <td><input type="text" value="${
         row.name
       }" oninput="updateModule('${storageKey}', ${index}, 'name', this.value)" /></td>
-      <td><input type="number" value="${
+      <td><input min="1" max="6"  type="number" value="${
         row.credits
-      }" oninput="updateModule('${storageKey}', ${index}, 'credits', this.value)" /></td>
+      }" oninput="updateModule('${storageKey}', ${index}, 'credits', this.value)"/></td>
       <td>
-        <select onchange="updateModule('${storageKey}', ${index}, 'grade', this.value)">
+        <select onchange="updateModule('${storageKey}', ${index}, 'grade', this.value) >
           <option value="">Select</option>
           ${generateGradeOptions(row.grade)}
         </select>
@@ -189,81 +189,75 @@ function downloadEncryptedFile() {
 }
 
 //decription
-document
-  .getElementById("uploadBtn")
-  .addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
+document.addEventListener("change", function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = function (e) {
-      const encrypted = e.target.result;
-      let decrypted = "";
+  reader.onload = function (e) {
+    const encrypted = e.target.result;
+    let decrypted = "";
 
-      try {
-        decrypted = CryptoJS.AES.decrypt(encrypted, secretKey).toString(
-          CryptoJS.enc.Utf8
-        );
-        if (!decrypted) throw new Error("Decryption returned empty string");
+    try {
+      decrypted = CryptoJS.AES.decrypt(encrypted, secretKey).toString(
+        CryptoJS.enc.Utf8
+      );
+      if (!decrypted) throw new Error("Decryption returned empty string");
 
-        const parsedData = JSON.parse(decrypted);
+      const parsedData = JSON.parse(decrypted);
 
-        // basic validation
-        if (
-          !parsedData.year_1_modules ||
-          !Array.isArray(parsedData.year_1_modules)
-        ) {
-          throw new Error("Invalid modules structure");
-        }
-
-        // update localStorage
-        localStorage.setItem(
-          "student",
-          JSON.stringify(parsedData.student || {})
-        );
-        localStorage.setItem(
-          "year_1_modules",
-          JSON.stringify(parsedData.year_1_modules || [])
-        );
-        localStorage.setItem(
-          "year_2_modules",
-          JSON.stringify(parsedData.year_2_modules || [])
-        );
-        localStorage.setItem(
-          "year_3_modules",
-          JSON.stringify(parsedData.year_3_modules || [])
-        );
-        localStorage.setItem(
-          "year_4_modules",
-          JSON.stringify(parsedData.year_4_modules || [])
-        );
-        localStorage.setItem(
-          "yearPercentages",
-          JSON.stringify(parsedData.yearPercentages || [])
-        );
-
-        alert("✅ File successfully uploaded and decrypted!");
-      } catch (err) {
-        console.error("Decryption or parsing error:", err);
-        alert("❌ Failed to decrypt or parse the file.");
-        return; // skip rendering
+      // basic validation
+      if (
+        !parsedData.year_1_modules ||
+        !Array.isArray(parsedData.year_1_modules)
+      ) {
+        throw new Error("Invalid modules structure");
       }
 
-      // render outside catch block
-      try {
-        document.addEventListener("DOMContentLoaded", function () {
-          renderTable("firstYear", "year_1_modules");
-          renderTable("secondYear", "year_2_modules");
-          renderTable("thirdYear", "year_3_modules");
-          renderTable("finalYear", "year_4_modules");
+      // update localStorage
+      localStorage.setItem("student", JSON.stringify(parsedData.student || {}));
+      localStorage.setItem(
+        "year_1_modules",
+        JSON.stringify(parsedData.year_1_modules || [])
+      );
+      localStorage.setItem(
+        "year_2_modules",
+        JSON.stringify(parsedData.year_2_modules || [])
+      );
+      localStorage.setItem(
+        "year_3_modules",
+        JSON.stringify(parsedData.year_3_modules || [])
+      );
+      localStorage.setItem(
+        "year_4_modules",
+        JSON.stringify(parsedData.year_4_modules || [])
+      );
+      localStorage.setItem(
+        "yearPercentages",
+        JSON.stringify(parsedData.yearPercentages || [])
+      );
 
-        });
-      } catch (tableError) {
-        console.error("Error while rendering table:", tableError);
-        alert("❗ Decryption was successful, but table rendering failed.");
-      }
-    };
+      alert("✅ File successfully uploaded and decrypted!");
+    } catch (err) {
+      console.error("Decryption or parsing error:", err);
+      alert("❌ Failed to decrypt or parse the file.");
+      return; // skip rendering
+    }
 
-    reader.readAsText(file);
-  });
+    // render outside catch block
+    try {
+      document.addEventListener("DOMContentLoaded", function () {
+        renderTable("firstYear", "year_1_modules");
+        renderTable("secondYear", "year_2_modules");
+        renderTable("thirdYear", "year_3_modules");
+        renderTable("finalYear", "year_4_modules");
+      });
+    } catch (tableError) {
+      console.error("Error while rendering table:", tableError);
+      alert("❗ Decryption was successful, but table rendering failed.");
+    }
+  };
+
+  reader.readAsText(file);
+});

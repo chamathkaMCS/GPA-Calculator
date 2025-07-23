@@ -1,16 +1,17 @@
+
+
 // common html parts
 
 fetch("header.html")
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("header-placeholder").innerHTML = data;
-    setupHeaderRelatedListeners();
   });
-fetch("footer.html")
-  .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("footer-placeholder").innerHTML = data;
-  });
+// fetch("footer.html")
+//   .then((response) => response.text())
+//   .then((data) => {
+//     document.getElementById("footer-placeholder").innerHTML = data;
+//   });
 fetch("whatsappBtn.html")
   .then((response) => response.text())
   .then((data) => {
@@ -95,6 +96,7 @@ if (localStorage.getItem("yearPercentages") === null) {
   localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
 }
 
+
 // Add input event listeners to each field
 window.onload = function () {
   fields.forEach((id) => {
@@ -145,3 +147,4 @@ universityNameInput.addEventListener("input", updateStudentInStorage);
 
 // Load on page load
 document.addEventListener("DOMContentLoaded", loadStudentFromStorage);
+

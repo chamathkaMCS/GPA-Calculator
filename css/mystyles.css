@@ -8,11 +8,6 @@
     min-height: 35vw;
   }
 }
-@media (max-width: 992px) {
-  .custom-card-img {
-    min-height: 35vw;
-  }
-}
 @media (max-width: 576px) {
   .heading {
     font-size: 2.5rem !important;
@@ -25,6 +20,15 @@
   }
   input {
     width: 85vw;
+  }
+  table.settings{
+    font-size:1rem !important;
+  }
+  .yearText{
+    font-size:2rem;
+  }
+  table.modules {
+    font-size:x-small !important;
   }
 }
 
@@ -93,13 +97,33 @@ body {
     rgb(255, 255, 255) 1px
   );
 }
+.yearText{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.containerGPA{
+  border-radius: 10px;
+  width: 100%;
+  color: #fff;
+  background-color: var(--color-background);
+  box-shadow: 0px 0px 10px rgb(128, 128, 128);
+  overflow: hidden;
+  margin-top: 3rem;
+  padding: 10px;
+  min-height: 4rem;
+}
 .settings {
   background-color: rgb(255, 255, 255);
   margin: auto;
   border-radius: 10px;
   box-shadow: 0px 0px 5px rgb(134, 134, 134);
 }
-
+.settingsInput{
+  max-width: 90px;
+  max-height: 40px;
+  border-radius: 5px;
+  text-align: end;
+}
 .btn {
   border-radius: 30px;
   padding: 10px 20px;
@@ -237,11 +261,11 @@ input[type="color"]::-moz-color-swatch {
 }
 
 /*module table style*/
-
 table.modules {
   width: 100%;
   border-collapse: collapse;  /* Remove double borders */
   font-family: Arial, sans-serif;
+  font-size:larger;
   color: var(--color-secondary);
   margin: 30px 0px;
 }
@@ -253,7 +277,7 @@ table.modules th, td {
 
 table.modules th {
   background-color:var(--color-secondary);
-  color: var(--color-background);
+  color: white;
   font-weight: bold;
 }
 
@@ -272,8 +296,8 @@ table.modules tr:hover {
 table.settings {
   width: 100%;
   box-shadow: none;
+  font-size: 2rem;
 }
-
 /*tooltip styles*/
 .tooltip {
   opacity: 1;

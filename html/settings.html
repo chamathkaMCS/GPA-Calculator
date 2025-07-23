@@ -17,111 +17,85 @@
     <div id="header-placeholder"></div>
     <!--body-->
     <div style="height: 85vh; width: 100vw; display: flex">
-      <div class="settings col-lg-4 col-sm-10">
+      <div class="settings col-lg-5 col-sm-10 col-11">
         <table class="settings">
           <tbody>
             <tr>
+              <div class="row justify-content-center align-items-center">
+                <label class="p-4 pb-0 mb-0 text-center"
+                  >On this settings page, you can modify the year-wise
+                  percentage weights for your degree program. By default, each
+                  year is assigned a weight of 25%.</label
+                >
+              </div>
+              <hr />
+            </tr>
+            <tr>
               <td>
-                <label class="py-3" style="font-size: 2rem">First Year :</label>
+                <label>First Year :</label>
               </td>
               <td style="text-align: end">
                 <input
-                  class="pl-3 my-4"
+                  class="settingsInput"
                   type="text"
                   id="year_1per"
                   placeholder="25"
-                  style="
-                    width: 90px;
-                    height: 40px;
-                    border-radius: 5px;
-                    font-size: 2em;
-                    text-align: end;
-                  "
                 />
-                <label style="font-size: 2rem">%</label>
+                <label>%</label>
               </td>
             </tr>
             <tr>
               <td>
-                <label class="py-3" style="font-size: 2rem"
-                  >Second Year :</label
-                >
+                <label>Second Year :</label>
               </td>
               <td style="text-align: end">
                 <input
-                  class="pl-3 my-4"
+                  class="settingsInput"
                   type="text"
                   id="year_2per"
                   placeholder="25"
-                  style="
-                    width: 90px;
-                    height: 40px;
-                    border-radius: 5px;
-                    font-size: 2em;
-                    text-align: end;
-                  "
                 />
-                <label style="font-size: 2rem">%</label>
+                <label>%</label>
               </td>
             </tr>
             <tr>
               <td>
-                <label class="py-3" style="font-size: 2rem">Third Year :</label>
+                <label>Third Year :</label>
               </td>
               <td style="text-align: end">
                 <input
-                  class="pl-3 my-4"
+                  class="settingsInput"
                   type="text"
                   id="year_3per"
                   placeholder="25"
-                  style="
-                    width: 90px;
-                    height: 40px;
-                    border-radius: 5px;
-                    font-size: 2em;
-                    text-align: end;
-                  "
                 />
-                <label style="font-size: 2rem">%</label>
+                <label>%</label>
               </td>
             </tr>
             <tr>
               <td>
-                <label class="py-3" style="font-size: 2rem">Final Year :</label>
+                <label>Final Year :</label>
               </td>
               <td style="text-align: end">
                 <input
                   type="text"
+                  class="settingsInput"
                   id="year_4per"
                   placeholder="25"
-                  style="
-                    width: 90px;
-                    height: 40px;
-                    border-radius: 5px;
-                    font-size: 2em;
-                    text-align: end;
-                  "
                 />
-                <label style="font-size: 2rem">%</label>
+                <label>%</label>
               </td>
             </tr>
             <tr>
               <td>
-                <label class="py-3" style="font-size: 2rem"
-                  >Theme Color :</label
-                >
+                <label>Theme Color :</label>
               </td>
               <td style="text-align: end">
                 <input
                   type="color"
                   id="colorPicker"
+                  class="settingsInput"
                   value="#675570"
-                  style="
-                    width: 120px;
-                    height: 40px;
-                    border-radius: 5px;
-                    font-size: 2em;
-                  "
                 />
               </td>
             </tr>
@@ -132,7 +106,11 @@
             <button class="btn2" id="saveBtn" onclick="downloadEncryptedFile()">
               save <i class="fa fa-save"></i>
             </button>
-            <button class="btn2" id="downloadBtn" onclick="downloadEncryptedFile()">
+            <button
+              class="btn2"
+              id="downloadBtn"
+              onclick="downloadEncryptedFile()"
+            >
               <i class="fa fa-download"></i>
             </button>
             <input
@@ -148,7 +126,7 @@
               <i class="fa fa-upload"></i>
             </button>
           </div>
-          <br>
+          <br />
         </div>
         <div style="width: 100%; text-align: center">
           <p id="totalWarning" style="font-weight: 400"></p>
