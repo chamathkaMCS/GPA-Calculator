@@ -14,6 +14,9 @@ function getStoredModules(key) {
 
 function saveModules(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
+  localStorage.setItem("final_save", "updated");
+
+  toggleGPAView();
 }
 
 function renderTable(containerId, storageKey) {
@@ -25,23 +28,23 @@ function renderTable(containerId, storageKey) {
   data.forEach((row, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><input type="text" value="${
-        row.code
-      }" oninput="updateModule('${storageKey}', ${index}, 'code', this.value)" /></td>
-      <td><input type="text" value="${
-        row.name
-      }" oninput="updateModule('${storageKey}', ${index}, 'name', this.value)" /></td>
-      <td><input min="1" max="6"  type="number" value="${
-        row.credits
-      }" oninput="updateModule('${storageKey}', ${index}, 'credits', this.value)"/></td>
-      <td>
-        <select onchange="updateModule('${storageKey}', ${index}, 'grade', this.value) >
-          <option value="">Select</option>
-          ${generateGradeOptions(row.grade)}
-        </select>
-      </td>
-      <td><i class="fa fa-trash" onclick="deleteModule('${storageKey}', '${containerId}', ${index})"></i></td>
-    `;
+  <td><input type="text" value="${
+    row.code
+  }" oninput="updateModule('${storageKey}', ${index}, 'code', this.value)" /></td>
+  <td><input type="text" value="${
+    row.name
+  }" oninput="updateModule('${storageKey}', ${index}, 'name', this.value)" /></td>
+  <td><input min="1" max="6" type="number" value="${
+    row.credits
+  }" oninput="updateModule('${storageKey}', ${index}, 'credits', this.value)" /></td>
+  <td>
+    <select onchange="updateModule('${storageKey}', ${index}, 'grade', this.value)">
+      <option value="">Select</option>
+      ${generateGradeOptions(row.grade)}
+    </select>
+  </td>
+  <td><i class="fa fa-trash" onclick="deleteModule('${storageKey}', '${containerId}', ${index})"></i></td>
+`;
     tableBody.appendChild(tr);
   });
 
@@ -75,7 +78,6 @@ function generateGradeOptions(selectedGrade = "") {
     "C-",
     "D+",
     "D",
-    "E",
   ];
   return grades
     .map(
@@ -135,11 +137,27 @@ const settingsBtn = document.getElementById("settings");
 if (settingsBtn) {
   settingsBtn.onclick = () => (window.location.href = "settings.html");
 }
+
+//save default percentages
+function saveDefaultPercentage() {
+  const defaultPercentages = {
+    year_1per: "25",
+    year_2per: "25",
+    year_3per: "25",
+    year_4per: "25",
+  };
+  localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
+}
+
 //goto homepage
 const saveBtn = document.getElementById("saveBtn");
 if (saveBtn) {
-  saveBtn.onclick = () => (window.location.href = "index.html");
+  saveBtn.onclick = () => {
+    saveDefaultPercentage(); // Call function first
+    window.location.href = "index.html"; // Then redirect
+  };
 }
+
 //downlad gpa
 function downloadEncryptedFile() {
   // Get data from localStorage
@@ -189,75 +207,80 @@ function downloadEncryptedFile() {
 }
 
 //decription
-document.addEventListener("change", function (event) {
-  const file = event.target.files[0];
-  if (!file) return;
+document
+  .getElementById("uploadBtn")
+  .addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = function (e) {
-    const encrypted = e.target.result;
-    let decrypted = "";
+    reader.onload = function (e) {
+      const encrypted = e.target.result;
+      let decrypted = "";
 
-    try {
-      decrypted = CryptoJS.AES.decrypt(encrypted, secretKey).toString(
-        CryptoJS.enc.Utf8
-      );
-      if (!decrypted) throw new Error("Decryption returned empty string");
+      try {
+        decrypted = CryptoJS.AES.decrypt(encrypted, secretKey).toString(
+          CryptoJS.enc.Utf8
+        );
+        if (!decrypted) throw new Error("Decryption returned empty string");
 
-      const parsedData = JSON.parse(decrypted);
+        const parsedData = JSON.parse(decrypted);
 
-      // basic validation
-      if (
-        !parsedData.year_1_modules ||
-        !Array.isArray(parsedData.year_1_modules)
-      ) {
-        throw new Error("Invalid modules structure");
+        // basic validation
+        if (
+          !parsedData.year_1_modules ||
+          !Array.isArray(parsedData.year_1_modules)
+        ) {
+          throw new Error("Invalid modules structure");
+        }
+
+        // update localStorage
+        localStorage.setItem(
+          "student",
+          JSON.stringify(parsedData.student || {})
+        );
+        localStorage.setItem(
+          "year_1_modules",
+          JSON.stringify(parsedData.year_1_modules || [])
+        );
+        localStorage.setItem(
+          "year_2_modules",
+          JSON.stringify(parsedData.year_2_modules || [])
+        );
+        localStorage.setItem(
+          "year_3_modules",
+          JSON.stringify(parsedData.year_3_modules || [])
+        );
+        localStorage.setItem(
+          "year_4_modules",
+          JSON.stringify(parsedData.year_4_modules || [])
+        );
+        localStorage.setItem(
+          "yearPercentages",
+          JSON.stringify(parsedData.yearPercentages || [])
+        );
+
+        alert("✅ File successfully uploaded and decrypted!");
+      } catch (err) {
+        console.error("Decryption or parsing error:", err);
+        alert("❌ Failed to decrypt or parse the file.");
+        return; // skip rendering
       }
 
-      // update localStorage
-      localStorage.setItem("student", JSON.stringify(parsedData.student || {}));
-      localStorage.setItem(
-        "year_1_modules",
-        JSON.stringify(parsedData.year_1_modules || [])
-      );
-      localStorage.setItem(
-        "year_2_modules",
-        JSON.stringify(parsedData.year_2_modules || [])
-      );
-      localStorage.setItem(
-        "year_3_modules",
-        JSON.stringify(parsedData.year_3_modules || [])
-      );
-      localStorage.setItem(
-        "year_4_modules",
-        JSON.stringify(parsedData.year_4_modules || [])
-      );
-      localStorage.setItem(
-        "yearPercentages",
-        JSON.stringify(parsedData.yearPercentages || [])
-      );
+      // render outside catch block
+      try {
+        document.addEventListener("DOMContentLoaded", function () {
+          renderTable("firstYear", "year_1_modules");
+          renderTable("secondYear", "year_2_modules");
+          renderTable("thirdYear", "year_3_modules");
+          renderTable("finalYear", "year_4_modules");
+        });
+      } catch (tableError) {
+        console.error("Error while rendering table:", tableError);
+        alert("❗ Decryption was successful, but table rendering failed.");
+      }
+    };
 
-      alert("✅ File successfully uploaded and decrypted!");
-    } catch (err) {
-      console.error("Decryption or parsing error:", err);
-      alert("❌ Failed to decrypt or parse the file.");
-      return; // skip rendering
-    }
-
-    // render outside catch block
-    try {
-      document.addEventListener("DOMContentLoaded", function () {
-        renderTable("firstYear", "year_1_modules");
-        renderTable("secondYear", "year_2_modules");
-        renderTable("thirdYear", "year_3_modules");
-        renderTable("finalYear", "year_4_modules");
-      });
-    } catch (tableError) {
-      console.error("Error while rendering table:", tableError);
-      alert("❗ Decryption was successful, but table rendering failed.");
-    }
-  };
-
-  reader.readAsText(file);
-});
+    reader.readAsText(file);
+  });

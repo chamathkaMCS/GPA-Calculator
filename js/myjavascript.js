@@ -1,24 +1,44 @@
-
-
 // common html parts
-
 fetch("header.html")
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("header-placeholder").innerHTML = data;
   });
-// fetch("footer.html")
-//   .then((response) => response.text())
-//   .then((data) => {
-//     document.getElementById("footer-placeholder").innerHTML = data;
-//   });
+
 fetch("whatsappBtn.html")
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("whatsappBtn-placeholder").innerHTML = data;
   });
+
+fetch("footer.html")
+  .then((response) => response.text())
+  .then((data) => {
+    document.getElementById("footer-placeholder").innerHTML = data;
+  });
+
 //---------------
 
+//toggle calculate button
+function toggleGPAView() {
+  // Example: check if localStorage final Save 'status'
+  const final_save = localStorage.getItem("final_save");
+
+  const gpaView = document.getElementById("gpaView");
+  const calcView = document.getElementById("calcView");
+
+  if (final_save === "uptodate") {
+    // Show GPA, hide calculate
+    gpaView.style.display = "block";
+    calcView.style.display = "none";
+  } else {
+    // Show Calculate, hide GPA
+    gpaView.style.display = "none";
+    calcView.style.display = "block";
+  }
+}
+
+//colorpicker
 document.addEventListener("DOMContentLoaded", function () {
   const saved = JSON.parse(localStorage.getItem("themePalette"));
   const colorInput = document.getElementById("colorPicker");
@@ -72,9 +92,19 @@ function validateField(id) {
 }
 
 function validateTotal() {
-  const values = fields.map(
-    (id) => parseFloat(document.getElementById(id).value) || 0
-  );
+  const values = fields.map((id) => {
+    const element = document.getElementById(id);
+    if (!element) {
+      // Element not found, treat as missing value
+      return null;
+    }
+    const val = element.value;
+    return val ? parseFloat(val) : null;
+  });
+
+  // If any value is missing or element not found, skip validation
+  if (values.includes(null)) return;
+
   const total = values.reduce((a, b) => a + b, 0);
   const totalBox = document.getElementById("totalWarning");
 
@@ -86,21 +116,17 @@ function validateTotal() {
   }
 }
 
-if (localStorage.getItem("yearPercentages") === null) {
-  const defaultPercentages = {
-    year_1per: "25",
-    year_2per: "25",
-    year_3per: "25",
-    year_4per: "25",
-  };
-  localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
-}
 
 
-// Add input event listeners to each field
 window.onload = function () {
   fields.forEach((id) => {
-    document.getElementById(id).addEventListener("input", () => {
+    const el = document.getElementById(id);
+    if (!el) {
+      console.warn(`Element with ID '${id}' not found`);
+      return; // Skip to next
+    }
+
+    el.addEventListener("input", () => {
       validateField(id);
       saveToLocalStorage();
     });
@@ -108,12 +134,13 @@ window.onload = function () {
     // Load saved values
     const saved = JSON.parse(localStorage.getItem("yearPercentages"));
     if (saved && saved[id]) {
-      document.getElementById(id).value = saved[id];
+      el.value = saved[id];
     }
   });
 
   validateTotal();
 };
+
 
 function saveToLocalStorage() {
   const data = {};
@@ -147,4 +174,3 @@ universityNameInput.addEventListener("input", updateStudentInStorage);
 
 // Load on page load
 document.addEventListener("DOMContentLoaded", loadStudentFromStorage);
-

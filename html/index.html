@@ -113,27 +113,27 @@
       </table>
     </div>
   </div>
-  <div class="container containerGPA d-flex justify-content-center align-items-center mt-5 col-8 col-xl-2 col-md-3">
-    <div class="text-center">
-      <div class="row ">
-        <div class="col-12">
-          Your Current GPA is
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <h2>3.42</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          You have a FIRST CLASS 
-        </div>
-      </div>
-      <!-- <h2>Calculate<i class="fa fa-cogs pl-3"></i></h2> -->
+<button class="container containerGPA d-flex justify-content-center align-items-center mt-5 col-8 col-xl-2 col-md-3" onclick="calculateGPA()">
+  <div id="gpaView" class="text-center" style="display: none;">
+    <div class="row">
+      <div class="col-12">Your Current GPA is</div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <h2 id="gpaDisplay"></h2>
+      </div>
+    <div class="col-12" style="font-size: x-small;">🎉 Congratulations!<br>You have earned a</div>
+    <div class="col-12" id="classDisplay" style="font-size:large ;"></div>
   </div>
-  
+  </div>
+
+  <div id="calcView" class="text-center">
+    <h2>Calculate <i class="fa fa-cogs pl-3"></i></h2>
+    <h5 style="font-weight:300;">Your Current GPA</h5>
+  </div>
+</button>
+
+
   <div class="d-flex justify-content-center mt-3 ">
 
     <p class="align-self-center col-12 col-md-6 col-lg-4 text-dark p-2 text-center">
@@ -148,8 +148,10 @@
   <div id="whatsappBtn-placeholder"></div>
 
   <!--footer-->
+  <div id="footer-placeholder"></div>
 
   <script src="../js/modules.js"></script>
+  <script src="../js/calculations.js"></script>
   <script src="../js/myjavascript.js"></script>
   <script src="../js/colorpalette.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>

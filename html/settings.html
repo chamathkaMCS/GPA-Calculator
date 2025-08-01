@@ -103,7 +103,10 @@
         </table>
         <div class="col-12">
           <div class="row justify-content-end align-items-center">
-            <button class="btn2" id="saveBtn" onclick="downloadEncryptedFile()">
+            <button class="btn2" onclick="generatePDF()">
+              Print <i class="fa fa-print"></i>
+            </button>
+            <button class="btn2" id="saveBtn">
               save <i class="fa fa-save"></i>
             </button>
             <button
@@ -137,9 +140,12 @@
     <div id="whatsappBtn-placeholder"></div>
 
     <!--footer-->
+    <div id="footer-placeholder"></div>
+
     <script src="../js/modules.js"></script>
     <script src="../js/myjavascript.js"></script>
     <script src="../js/colorpalette.js"></script>
+    <script src="../js/createPdf.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
     <script
@@ -148,5 +154,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="../js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   </body>
 </html>
