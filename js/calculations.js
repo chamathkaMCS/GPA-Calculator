@@ -26,7 +26,11 @@ function GPAtoClass(GPA) {
 }
 
 function calculateGPA() {
-  saveDefaultPercentage();
+  
+  if (!localStorage.getItem("yearPercentages")) {
+    saveDefaultPercentage();
+  }
+
   const year1Modules = JSON.parse(
     localStorage.getItem("year_1_modules") || "[]"
   );
@@ -42,6 +46,9 @@ function calculateGPA() {
   const yearPercentages = JSON.parse(
     localStorage.getItem("yearPercentages") || "[]"
   );
+
+  
+
 
   //Year 1 GPA
   let year1Credits = 0;

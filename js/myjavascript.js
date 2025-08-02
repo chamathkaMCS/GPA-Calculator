@@ -38,6 +38,17 @@ function toggleGPAView() {
   }
 }
 
+//save default percentages
+function saveDefaultPercentage() {
+  const defaultPercentages = {
+    year_1per: "25",
+    year_2per: "25",
+    year_3per: "25",
+    year_4per: "25",
+  };
+  localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
+}
+
 //colorpicker
 document.addEventListener("DOMContentLoaded", function () {
   const saved = JSON.parse(localStorage.getItem("themePalette"));
@@ -118,28 +129,43 @@ function validateTotal() {
 
 
 
-window.onload = function () {
+// Save all year percentages to localStorage
+function saveYearPercentages() {
+  const percentages = {};
+  fields.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      percentages[id] = el.value || "0";
+    }
+  });
+  localStorage.setItem("yearPercentages", JSON.stringify(percentages));
+}
+
+// Load percentages and setup listeners
+function loadYearPercentages() {
   fields.forEach((id) => {
     const el = document.getElementById(id);
     if (!el) {
       console.warn(`Element with ID '${id}' not found`);
-      return; // Skip to next
+      return;
     }
 
+    // Add listener to validate and save when input changes
     el.addEventListener("input", () => {
       validateField(id);
-      saveToLocalStorage();
+      saveYearPercentages();
     });
 
-    // Load saved values
+    // Load saved values if they exist
     const saved = JSON.parse(localStorage.getItem("yearPercentages"));
     if (saved && saved[id]) {
       el.value = saved[id];
     }
   });
 
-  validateTotal();
-};
+  validateTotal(); // Call total validator
+}
+
 
 
 function saveToLocalStorage() {

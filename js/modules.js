@@ -66,19 +66,7 @@ function renderTable(containerId, storageKey) {
 }
 
 function generateGradeOptions(selectedGrade = "") {
-  const grades = [
-    "A+",
-    "A",
-    "A-",
-    "B+",
-    "B",
-    "B-",
-    "C+",
-    "C",
-    "C-",
-    "D+",
-    "D",
-  ];
+  const grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D"];
   return grades
     .map(
       (g) =>
@@ -138,23 +126,14 @@ if (settingsBtn) {
   settingsBtn.onclick = () => (window.location.href = "settings.html");
 }
 
-//save default percentages
-function saveDefaultPercentage() {
-  const defaultPercentages = {
-    year_1per: "25",
-    year_2per: "25",
-    year_3per: "25",
-    year_4per: "25",
-  };
-  localStorage.setItem("yearPercentages", JSON.stringify(defaultPercentages));
-}
 
 //goto homepage
 const saveBtn = document.getElementById("saveBtn");
+
 if (saveBtn) {
   saveBtn.onclick = () => {
-    saveDefaultPercentage(); // Call function first
-    window.location.href = "index.html"; // Then redirect
+    saveYearPercentages();
+    window.location.href = "index.html";
   };
 }
 
