@@ -146,13 +146,13 @@ window.onload = function () {
   fields.forEach((id) => {
     const el = document.getElementById(id);
     if (!el) {
-      console.warn(Element with ID '${id}' not found);
+      console.warn(`Element with ID '${id}' not found`);
       return; // Skip to next
     }
 
     el.addEventListener("input", () => {
       validateField(id);
-      saveToLocalStorage();
+      saveToLocalStorage(); // You might want to rename this to saveYearPercentages()
     });
 
     // Load saved values
