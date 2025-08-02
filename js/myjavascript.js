@@ -142,30 +142,28 @@ function saveYearPercentages() {
 }
 
 // Load percentages and setup listeners
-function loadYearPercentages() {
+window.onload = function () {
   fields.forEach((id) => {
     const el = document.getElementById(id);
     if (!el) {
-      console.warn(`Element with ID '${id}' not found`);
-      return;
+      console.warn(Element with ID '${id}' not found);
+      return; // Skip to next
     }
 
-    // Add listener to validate and save when input changes
     el.addEventListener("input", () => {
       validateField(id);
-      saveYearPercentages();
+      saveToLocalStorage();
     });
 
-    // Load saved values if they exist
+    // Load saved values
     const saved = JSON.parse(localStorage.getItem("yearPercentages"));
     if (saved && saved[id]) {
       el.value = saved[id];
     }
   });
 
-  validateTotal(); // Call total validator
-}
-
+  validateTotal();
+};
 
 
 function saveToLocalStorage() {
