@@ -2,7 +2,6 @@ async function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // Retrieve student and university name (fallback to placeholders)
   const student = JSON.parse(localStorage.getItem("student")) || {};
   const studentName = student.name || "Student Name";
   const universityName = student.university || "University Name";
@@ -14,105 +13,116 @@ async function generatePDF() {
     { key: "year_4_modules", title: "Year 4 Modules" },
   ];
 
-  let yPosition = 15;
-
   const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
 
-  // Main Heading
-  doc.setFontSize(18);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(0);
-  const text = "Degree Transcript - by GPA Calculator";
-  const textWidth1 = doc.getTextWidth(text);
-  const x = (pageWidth - textWidth1) / 2;
-  doc.text("Degree Transcript - by GPA Calculator", x, yPosition);
-  yPosition += 10;
+  const marginLeft = 14;
+  const marginRight = 14;
+  const marginTop = 50;
+  const marginBottom = 20;
 
-  // Student Name & University Name
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Student: ${studentName}`, 14, yPosition);
-  yPosition += 7;
-  doc.text(`University: ${universityName}`, 14, yPosition);
-  yPosition += 12;
-  doc.setLineWidth(2);
-  doc.line(14, yPosition - 6, 196, yPosition - 6);
-  yPosition += 12;
+  const drawHeader = () => {
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0);
+    doc.text("Degree Transcript - by GPA Calculator", pageWidth / 2, 20, {
+      align: "center",
+    });
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Student: ${studentName}`, marginLeft, 30);
+    doc.text(`University: ${universityName}`, marginLeft, 38);
+
+    doc.setLineWidth(1);
+    doc.line(marginLeft, 44, pageWidth - marginRight, 44);
+  };
+
+  const drawFooter = () => {
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(80);
+    const footerText = "© 2025 MCS Designers. All rights reserved.";
+    const footerSubText =
+      "Website developed by Chamathka Swaranga | Concept by Ushan Arosha";
+    doc.text(footerText, pageWidth / 2, pageHeight - 12, { align: "center" });
+    doc.text(footerSubText, pageWidth / 2, pageHeight - 6, { align: "center" });
+  };
+
+  // Register didDrawPage once for all tables to draw header/footer on every page
+  const didDrawPage = (data) => {
+    drawHeader();
+    drawFooter();
+  };
+
+  let currentY = marginTop;
 
   for (const year of years) {
     const modules = JSON.parse(localStorage.getItem(year.key)) || [];
     if (modules.length === 0) continue;
 
-    // Year Title
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(year.title, 14, yPosition);
-    yPosition += 8;
+    // If there isn't enough space for the year title + some table rows, add a new page
+    if (currentY + 10 > pageHeight - marginBottom) {
+      doc.addPage();
+      currentY = marginTop;
+    }
 
-    // Prepare table data
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(year.title, marginLeft, currentY);
+    currentY += 6;
+
     const tableColumn = ["Module Code", "Module Name", "Credits", "Grade"];
     const tableRows = modules.map((m) => [m.code, m.name, m.credits, m.grade]);
 
     doc.autoTable({
-      startY: yPosition,
       head: [tableColumn],
       body: tableRows,
-      theme: "striped",
+      startY: currentY,
+      margin: { left: marginLeft, right: marginRight },
       styles: {
         fontSize: 10,
         textColor: 0,
-        fillColor: 255,
+        overflow: "linebreak",
       },
       headStyles: {
-        fillColor: 220,
+        fillColor: [240, 240, 240],
         textColor: 0,
         fontStyle: "bold",
+        halign: "left",
       },
-      alternateRowStyles: {
-        fillColor: 245,
-      },
-      margin: { left: 14, right: 14 },
-      didDrawPage: (data) => {
-        yPosition = data.cursor.y + 10;
-      },
+      alternateRowStyles: { fillColor: [250, 250, 250] },
+      theme: "striped",
+      didDrawPage, // Use the header/footer callback
     });
 
-    // Horizontal line separator
-    doc.setDrawColor(0);
-    doc.setLineWidth(0.3);
-    doc.line(14, yPosition - 6, 196, yPosition - 6);
+    currentY = doc.lastAutoTable.finalY + 20;
   }
 
-  // Final GPA
+  // Final GPA and note - check page space and add new page if needed
+  if (currentY + 20 > pageHeight - marginBottom) {
+    doc.addPage();
+    currentY = marginTop;
+  }
+
   const finalGPA = localStorage.getItem("finalGPA") || "N/A";
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
-  doc.text(`Final GPA: ${finalGPA}`, 14, yPosition + 10);
-  yPosition += 20;
+  doc.setTextColor(0);
+  doc.text(`Final GPA: ${finalGPA}`, marginLeft, currentY);
 
-  // Disclaimer text - smaller, italic, grayish
+  currentY += 10;
   doc.setFontSize(9);
   doc.setFont("helvetica", "italic");
-  doc.setTextColor(80); // dark gray
-  const disclaimer =
-    "This transcript is based on data provided by you and is not an official document.";
-  doc.text(disclaimer, 14, yPosition, { maxWidth: 180 });
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(80); // dark gray
+  doc.setTextColor(80);
+  doc.text(
+    "This transcript is based on data provided by you and is not an official document.",
+    marginLeft,
+    currentY,
+    { maxWidth: pageWidth - marginLeft - marginRight }
+  );
 
-  const footerText = "© 2025 MCS Designers. All rights reserved.";
-  const footerSubText =
-    "Website developed by Chamathka Swaranga | Concept by Ushan Arosha";
+  // No need to call drawFooter() here; autoTable pages handle it
 
-  // Position at bottom of page (approx 10mm from bottom)
-  const pageHeight = doc.internal.pageSize.height;
-  const textWidth2 = doc.getTextWidth(footerText);
-  const y = (pageWidth - textWidth2) / 2;
-  const textWidth3 = doc.getTextWidth(footerSubText);
-  const z = (pageWidth - textWidth3) / 2;
-  doc.text(footerSubText, z, pageHeight - 5);
-  doc.text(footerText, y, pageHeight - 10);
-  // Save PDF
   doc.save("Transcript_by_GPA_CALCULATOR.pdf");
 }
